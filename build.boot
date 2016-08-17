@@ -15,10 +15,11 @@
                  [ring "1.4.0" :scope "test"]
                  [reagent "0.6.0-alpha" :scope "test"]
                  [tolitius/boot-check "0.1.1" :scope "test"]
-                 ;; [bidi "1.20.3"]
-                 ;; [kibu/pushy "0.3.2"]
+                 [bidi "1.20.3"]
+                 [kibu/pushy "0.3.2"]
                  [re-frame "0.7.0"]
                  [secretary "1.2.3"]
+                 [com.domkm/silk "0.1.1"]
                  ])
 
 (require
