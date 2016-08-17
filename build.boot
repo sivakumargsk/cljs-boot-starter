@@ -14,7 +14,12 @@
                  [org.clojure/clojurescript "1.8.40" :scope "test"]
                  [ring "1.4.0" :scope "test"]
                  [reagent "0.6.0-alpha" :scope "test"]
-                 [tolitius/boot-check "0.1.1" :scope "test"]])
+                 [tolitius/boot-check "0.1.1" :scope "test"]
+                 ;; [bidi "1.20.3"]
+                 ;; [kibu/pushy "0.3.2"]
+                 [re-frame "0.7.0"]
+                 [secretary "1.2.3"]
+                 ])
 
 (require
  '[adzerk.boot-cljs             :refer [cljs]]
@@ -46,11 +51,12 @@
    (cljs)))
 
 (deftask development []
-  (task-options! cljs
-                 {:optimizations :none
-                  :source-map true
-                  :compiler-options {:asset-path "js/main.out"}}
-                 reload {:on-jsload 'cljs-boot-starter.client/init})
+  (task-options!
+   cljs
+   {:optimizations :none
+    :source-map true
+    :compiler-options {:asset-path "js/main.out"}}
+   reload {:on-jsload 'cljs-boot-starter.client/init})
   identity)
 
 (deftask dev
