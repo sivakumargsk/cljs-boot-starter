@@ -14,7 +14,8 @@
                  [org.clojure/clojurescript "1.8.40" :scope "test"]
                  [ring "1.4.0" :scope "test"]
                  [reagent "0.6.0-alpha" :scope "test"]
-                 [tolitius/boot-check "0.1.1" :scope "test"]])
+                 [tolitius/boot-check "0.1.1" :scope "test"]
+                 [cljs-pikaday "0.1.3"]])
 
 (require
  '[adzerk.boot-cljs             :refer [cljs]]
