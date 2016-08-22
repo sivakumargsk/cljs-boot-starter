@@ -12,12 +12,17 @@
    [pikaday/date-selector {:date-atom the-date}]
    [:p (str @the-date)]])
 
+
+;; -----------------------------------------------------
+;; bootstrap date picker
+;; -----------------------------------------------------
+
 (defn datepicker-render [this id key data]
   [:input.form-control
    {:id id
     :type "text"
     :placeholder "click to show datepicker"
-    :value (@data key)
+    :value (@data key "")
     :on-change #(swap! data assoc key (.val (js/$ (reagent/dom-node this))))
     :on-blur #(swap! data assoc key (.val (js/$ (reagent/dom-node this))))
     }])
@@ -25,6 +30,7 @@
 (defn datepicker-did-mount [this key data]
   (let [dp-node (js/$ (reagent/dom-node this))]
     (do (.val dp-node (@data key))
+        (swap! data assoc key (.val dp-node))
         (.datepicker
          dp-node
          (clj->js {:format "dd-M-yyyy"
@@ -35,32 +41,26 @@
              "changeDate"
              #(swap! data assoc key (.val dp-node))))))
 
-;; this will gives some inproper functionality
-;; so i dont use the below function
-;; the issue is when i select a new date on datepicker
-;; it does not select on first click it will selected on second click
-;; then after it works properly
-
-#_(defn datepicker-did-update [this key data]
-    (let [dp-node (js/$ (reagent/dom-node this))]
-      (do (.val dp-node (@data key))
-          (.datepicker dp-node "update"))))
+(defn datepicker-did-update [this key data]
+  (let [dp-node (js/$ (reagent/dom-node this))]
+    (.datepicker dp-node "update")))
 
 (defn datepicker [id key data]
   (reagent/create-class
    {:render #(datepicker-render % id key data)
     :component-did-mount #(datepicker-did-mount % key data)
-    ;; component-did-update #(datepicker-did-update % key data)
+    :component-did-update #(datepicker-did-update % key data)
     }))
 
 (defn div-datepicker-render [id key data]
   [:div.input-group.date
-   {:on-mouse-over #(.datepicker (js/$ (str "#" id)) "update" (@data key))}
    [datepicker id key data]
    [:div.input-group-addon
     {:style {:cursor "pointer"}
      :on-click #(.datepicker  (js/$ (str "#" id)) "show")}
     [:span.glyphicon.glyphicon-calendar]]])
+
+;; ------------ end of date picker --------------------------------
 
 (defn my-home []
   (let [data (atom {})]
